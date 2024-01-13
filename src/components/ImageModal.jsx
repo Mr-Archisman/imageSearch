@@ -2,15 +2,22 @@ import { useState } from "react";
 
 const ImageModal = ({ image, onClose }) => {
   const [selectedQuality, setSelectedQuality] = useState("regular"); // Default quality
-
   const handleDownload = () => {
+    const downloadURL = image.urls[selectedQuality];
     const link = document.createElement("a");
-    link.href = image.urls[selectedQuality];
+    link.href = downloadURL;
     link.download = `download.${selectedQuality === "full" ? "jpeg" : "jpg"}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    
+    // Open the download link in a new tab
+    window.open(downloadURL, "_blank");
+  
+    // Optionally, you can trigger the download programmatically as well
+    // link.click();
+  
+    // Clean up the link element
+    link.remove();
   };
+  
 
   return (
     <div className="modal-backdrop">
